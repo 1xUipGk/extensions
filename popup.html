@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Plus Extension</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            width: 380px;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            padding: 30px 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        #icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+        }
+
+        #icon svg {
+            fill: #10a37f;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #202124;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #5f6368;
+            line-height: 1.4;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 25px 30px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 24px;
+            background-color: #10a37f;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #0d8a6a;
+        }
+
+        /* Menu Items */
+        .menu-items {
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #202124;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: right;
+        }
+
+        .menu-item:hover {
+            background-color: #f1f3f4;
+        }
+
+        .menu-item-icon {
+            width: 20px;
+            height: 20px;
+            margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+        .menu-item-icon svg {
+            fill: #5f6368;
+        }
+
+        .action__title {
+            flex: 1;
+            text-align: right;
+        }
+
+
+
+        /* Footer Links */
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 30px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-link {
+            font-size: 12px;
+            color: #5f6368;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-link:hover {
+            color: #202124;
+        }
+
+        .footer-link svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .version {
+            text-align: center;
+            font-size: 11px;
+            color: #9aa0a6;
+            margin-top: 10px;
+        }
+
+        /* Status Message */
+        #status {
+            text-align: center;
+            font-size: 12px;
+            color: #10a37f;
+            margin-top: 10px;
+            min-height: 18px;
+            opacity: 0;
+        }
+
+        #status.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="site-list" id="siteList" style="opacity: 0; display: none;">
+    <div id="statusMessage" class="status" style="opacity: 0; display: none;"></div>   
+    </div>
+    <div id="container">
+        <!-- Header -->
+        <div class="header">
+            <div id="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+                    <path d="m297.06 130.97c7.26-21.79 4.76-45.66-6.85-65.48-17.46-30.4-52.56-46.04-86.84-38.68-15.25-17.18-37.16-26.95-60.13-26.81-35.04-.08-66.13 22.48-76.91 55.82-22.51 4.61-41.94 18.7-53.31 38.67-17.59 30.32-13.58 68.54 9.92 94.54-7.26 21.79-4.76 45.66 6.85 65.48 17.46 30.4 52.56 46.04 86.84 38.68 15.24 17.18 37.16 26.95 60.13 26.8 35.06.09 66.16-22.49 76.94-55.86 22.51-4.61 41.94-18.7 53.31-38.67 17.57-30.32 13.55-68.51-9.94-94.51zm-120.28 168.11c-14.03.02-27.62-4.89-38.39-13.88.49-.26 1.34-.73 1.89-1.07l63.72-36.8c3.26-1.85 5.26-5.32 5.24-9.07v-89.83l26.93 15.55c.29.14.48.42.52.74v74.39c-.04 33.08-26.83 59.9-59.91 59.97zm-128.84-55.03c-7.03-12.14-9.56-26.37-7.15-40.18.47.28 1.3.79 1.89 1.13l63.72 36.8c3.23 1.89 7.23 1.89 10.47 0l77.79-44.92v31.1c.02.32-.13.63-.38.83l-64.41 37.19c-28.69 16.52-65.33 6.7-81.92-21.95zm-16.77-139.09c7-12.16 18.05-21.46 31.21-26.29 0 .55-.03 1.52-.03 2.2v73.61c-.02 3.74 1.98 7.21 5.23 9.06l77.79 44.91-26.93 15.55c-.27.18-.61.21-.91.08l-64.42-37.22c-28.63-16.58-38.45-53.21-21.95-81.89zm221.26 51.49-77.79-44.92 26.93-15.54c.27-.18.61-.21.91-.08l64.42 37.19c28.68 16.57 38.51 53.26 21.94 81.94-7.01 12.14-18.05 21.44-31.2 26.28v-75.81c.03-3.74-1.96-7.2-5.2-9.06zm26.8-40.34c-.47-.29-1.3-.79-1.89-1.13l-63.72-36.8c-3.23-1.89-7.23-1.89-10.47 0l-77.79 44.92v-31.1c-.02-.32.13-.63.38-.83l64.41-37.16c28.69-16.55 65.37-6.7 81.91 22 6.99 12.12 9.52 26.31 7.15 40.1zm-168.51 55.43-26.94-15.55c-.29-.14-.48-.42-.52-.74v-74.39c.02-33.12 26.89-59.96 60.01-59.94 14.01 0 27.57 4.92 38.34 13.88-.49.26-1.33.73-1.89 1.07l-63.72 36.8c-3.26 1.85-5.26 5.31-5.24 9.06l-.04 89.79zm14.63-31.54 34.65-20.01 34.65 20v40.01l-34.65 20-34.65-20z"/>
+                </svg>
+            </div>
+            <h1>ChatGPT Plus</h1>
+            <p class="subtitle">Access ChatGPT Plus directly from your browser</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <button class="btn" id="saveAndExport">Start New Chat</button>
+
+            <div id="status"></div>
+        </div>
+        <script src="popup.js"></script>
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="https://help.openai.com" target="_blank" class="footer-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                    Help
+                </a>
+                <a href="https://openai.com/policies/privacy-policy" target="_blank" class="footer-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                    Privacy
+                </a>
+                <a href="https://openai.com/policies/terms-of-use" target="_blank" class="footer-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    Terms
+                </a>
+                <a href="https://openai.com/blog" target="_blank" class="footer-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+                    News
+                </a>
+            </div>
+            <div class="version">Version 1.7.0 • © 2025 OpenAI</div>
+        </div>
+    </div>
+
+  
+</body>
+</html>
